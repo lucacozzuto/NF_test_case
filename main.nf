@@ -1,12 +1,14 @@
-ch = Channel.from( 1, 3, 5)
+ch = Channel.from("1", "3", "5")
+
 def Correspondence = [:]
-Correspondence["MS2specCount"] = [1 : "0000001" , 3: "0000003", 5: "0000005"  ]
+Correspondence["MS2specCount"] = ["1" : "0000001" , "3": "0000003", "5": "0000005"  ]
 
 process storenum {
-    storeDir "storenum"
-
+    publishDir "storenum"
+	tag { number }
+	
     input:
-    val(number) from ch
+    val number from ch
 
     output:
     set number, file("${Correspondence['MS2specCount'][ch]}.file") into number_files
