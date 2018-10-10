@@ -1,7 +1,10 @@
-ch = Channel.from("1", "3", "5")
+ch = Channel.from("a1", "a3", "a5")
 
 def Correspondence = [:]
-Correspondence["MS2specCount"] = ["1" : "0000001" , "3": "0000003", "5": "0000005"  ]
+Correspondence["MS2specCount"] = ["a1" : "0000001" , "a3": "0000003", "a5": "0000005"  ]
+println(Correspondence["MS2specCount"]["a1"])
+
+println(Correspondence)
 
 process storenum {
     publishDir "storenum"
@@ -11,10 +14,10 @@ process storenum {
     val number from ch
 
     output:
-    set number, file("${Correspondence['MS2specCount'][ch]}.file") into number_files
+    set number, file("${Correspondence['MS2specCount'][number]}.file") into number_files
     
     script:
-    def id = Correspondence['MS2specCount'][ch]
+    def id = Correspondence['MS2specCount'][number]
     """
 		echo ${id} > ${id}.file
     """
